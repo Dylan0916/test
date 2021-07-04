@@ -1,8 +1,8 @@
 import React from "react";
-import { DynamicModuleLoader } from "redux-dynamic-modules-react";
 
+import reducer, { reducerName as key } from "./store/reducers/two";
+import reducerInjector from "./utils/reducerInjector";
 import { useSelector, useDispatch } from "./store";
-import getTwoModule from "./store/modules/getTwoModule";
 
 function Child() {
   const twoNum = useSelector((state) => state.two.num);
@@ -17,10 +17,6 @@ function Child() {
   );
 }
 
-export default function Dynamic() {
-  return (
-    <DynamicModuleLoader modules={[getTwoModule()]}>
-      <Child />
-    </DynamicModuleLoader>
-  );
-}
+const withReducer = reducerInjector({ key, reducer });
+
+export default withReducer(Child);

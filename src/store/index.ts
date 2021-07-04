@@ -1,34 +1,17 @@
-import { combineReducers } from "redux";
-import { createStore, IModuleStore } from "redux-dynamic-modules";
 import {
   useSelector as useReduxSelector,
   useDispatch as useReduxDispatch,
   TypedUseSelectorHook,
 } from "react-redux";
-import getOneModule from "./modules/getOneModule";
 
-import one from "./reducers/one";
-import two from "./reducers/two";
+import { State as TwoState } from "./reducers/two";
+import store from "./createStore";
 
-declare const window: any;
+interface AsyncReducer {
+  two: TwoState;
+}
 
-const rootReducer = combineReducers({ one, two });
-const store = createStore(
-  {
-    // advancedComposeEnhancers:
-    //   window.__REDUX_DEVTOOLS_EXTENSION__ &&
-    //   window.__REDUX_DEVTOOLS_EXTENSION__(),
-  },
-  getOneModule()
-);
-
-console.log(store);
-//   rootReducer,
-//   // @ts-expect-error
-//   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-// );
-
-export type RootState = ReturnType<typeof rootReducer>;
+export type RootState = ReturnType<typeof store.getState> & AsyncReducer;
 export type AppDispatch = typeof store.dispatch;
 
 export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector;

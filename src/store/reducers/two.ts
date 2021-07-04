@@ -1,8 +1,14 @@
-export const defaultState = {
+export interface State {
+  num: number;
+}
+
+export const defaultState: State = {
   num: 0,
 };
 
-export default function one(state = defaultState, action: any) {
+export const reducerName = "two";
+
+export default function two(state = defaultState, action: any) {
   switch (action.type) {
     case "ADD_TWO": {
       return {
