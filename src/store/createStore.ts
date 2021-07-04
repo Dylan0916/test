@@ -1,13 +1,20 @@
-import { combineReducers, createStore } from "redux";
+import { combineReducers, createStore, applyMiddleware, compose } from "redux";
+import { createEpicMiddleware } from "redux-observable";
+
 import reducerRegistry from "./reducerRegistry";
+import rootEpic from "./epics";
 
 declare const window: any;
 
+export const epicMiddleware = createEpicMiddleware();
 const reducer = combineReducers(reducerRegistry.reducers);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  composeEnhancers(applyMiddleware(epicMiddleware))
 );
+
+epicMiddleware.run(rootEpic);
 
 const combine = (reducers: any): any => {
   return combineReducers(reducers);

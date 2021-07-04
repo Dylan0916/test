@@ -3,6 +3,7 @@ import React from "react";
 import reducer, { reducerName as key } from "./store/reducers/two";
 import reducerInjector from "./utils/reducerInjector";
 import { useSelector, useDispatch } from "./store";
+import epic from "./store/epics/two";
 
 function Child() {
   const twoNum = useSelector((state) => state.two.num);
@@ -17,6 +18,10 @@ function Child() {
   );
 }
 
-const withReducer = reducerInjector({ key, reducer });
+const withReducer = reducerInjector({
+  key,
+  reducer,
+  epic,
+});
 
 export default withReducer(Child);
