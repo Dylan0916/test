@@ -4,14 +4,17 @@ import {
   TypedUseSelectorHook,
 } from "react-redux";
 
-import store from "./createStore";
-import { State as TwoState } from "./reducers/two";
+import store, { defaultReducers } from "./createStore";
+import { TwoReducerType } from "./reducers/two";
 
-interface AsyncReducer {
-  two: TwoState;
+export interface AsyncReducer {
+  two: TwoReducerType;
+  three: TwoReducerType;
 }
 
-export type RootState = ReturnType<typeof store.getState> & AsyncReducer;
+export type DefaultReducers = typeof defaultReducers;
+export type ReducerType = DefaultReducers & Partial<AsyncReducer>;
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector;

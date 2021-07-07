@@ -8,9 +8,11 @@ export const defaultState: State = {
   isFetching: false,
 };
 
+export type TwoReducerType = typeof two;
+
 export const reducerName = "two";
 
-export default function two(state = defaultState, action: any) {
+function two(state = defaultState, action: any) {
   switch (action.type) {
     case "ADD_TWO": {
       return {
@@ -35,3 +37,5 @@ export default function two(state = defaultState, action: any) {
     }
   }
 }
+
+export default two;

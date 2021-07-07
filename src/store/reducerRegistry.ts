@@ -1,25 +1,30 @@
+import { combineReducers } from "redux";
+import { ReducerType, DefaultReducers, AsyncReducer } from "./";
+
+type EmitChange = (reducers: any) => void;
+
 export class ReducerRegistry {
-  _emitChange: Function | null = null;
-  _reducers = {};
+  _emitChange: EmitChange | null = null;
+  _reducers = {} as ReducerType;
 
-  get reducers() {
-    return { ...this._reducers };
-  }
-
-  set emitChange(listener: any) {
+  set emitChange(listener: EmitChange) {
     this._emitChange = listener;
   }
 
-  setDefaultReducers = (reducers: any) => {
+  setDefaultReducers = (reducers: DefaultReducers) => {
     this._reducers = reducers;
   };
 
-  register(name: string, reducer: any) {
+  combine = (reducers: ReducerType) => {
+    return combineReducers(reducers);
+  };
+
+  register = (name: keyof AsyncReducer, reducer: any) => {
     this._reducers = { ...this._reducers, [name]: reducer };
     if (typeof this._emitChange === "function") {
-      this._emitChange(this.reducers);
+      this._emitChange(this._reducers);
     }
-  }
+  };
 }
 
 const reducerRegistry = new ReducerRegistry();
