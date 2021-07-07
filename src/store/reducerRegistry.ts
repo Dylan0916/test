@@ -1,8 +1,6 @@
-import one from "./reducers/one";
-
 export class ReducerRegistry {
   _emitChange: Function | null = null;
-  _reducers = { one };
+  _reducers = {};
 
   get reducers() {
     return { ...this._reducers };
@@ -11,6 +9,10 @@ export class ReducerRegistry {
   set emitChange(listener: any) {
     this._emitChange = listener;
   }
+
+  setDefaultReducers = (reducers: any) => {
+    this._reducers = reducers;
+  };
 
   register(name: string, reducer: any) {
     this._reducers = { ...this._reducers, [name]: reducer };

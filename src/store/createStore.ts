@@ -3,6 +3,9 @@ import { createEpicMiddleware } from "redux-observable";
 
 import reducerRegistry from "./reducerRegistry";
 import rootEpic from "./epics";
+import one from "./reducers/one";
+
+export const defaultReducers = { one };
 
 declare const window: any;
 
@@ -20,6 +23,7 @@ const combine = (reducers: any): any => {
   return combineReducers(reducers);
 };
 
+reducerRegistry.setDefaultReducers(defaultReducers);
 reducerRegistry.emitChange = (reducers: any) => {
   store.replaceReducer(combine(reducers));
 };
